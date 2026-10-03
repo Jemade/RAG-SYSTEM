@@ -1,0 +1,2 @@
+# Privacy and telemetry — current
+Query logs contain user questions and retrieved evidence. Raw query retention is 7 days. Aggregate metrics are retained for 180 days. Users can request deletion through privacy@northstar.example. API keys and passwords must never be logged. Redaction is required before exporting traces. The telemetry opt-out disables raw query capture but preserves aggregate counts. Query logs are accessible only to the operations and security teams. Document text sent to external model providers requires approval from the data owner.

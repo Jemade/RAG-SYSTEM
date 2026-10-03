@@ -1,0 +1,2 @@
+# Retrieval design — current
+Documents are chunked into 800 characters with 120 characters of overlap. Dense retrieval uses cosine similarity. Lexical retrieval uses BM25. Reciprocal rank fusion uses constant 60. The candidate pool contains up to 20 chunks before reranking. A cross-encoder reranks candidate pairs. The final context contains 5 chunks by default. Reranker scores are not calibrated probabilities. Citation integrity verifies exact evidence substrings and known chunk identifiers. Citation integrity alone cannot prove the model actually used the evidence.

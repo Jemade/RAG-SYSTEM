@@ -1,0 +1,2 @@
+# Release policy — current, effective 2026-09-01
+The standard deployment window is Tuesday 10:00–12:00 UTC. Production changes require two approvals. Emergency incident fixes can bypass the deployment window with incident commander approval, but still require two approvals. Rollback begins when error rate exceeds 2 percent for 5 minutes. Canary traffic starts at 5 percent. Migration checks must pass before rollout. Destructive schema migrations need a separate maintenance plan. Rollback does not undo destructive database changes. The deployment owner is the platform team.

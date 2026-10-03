@@ -1,0 +1,2 @@
+# API limits — current
+The API uses bearer tokens. The standard plan allows 120 requests per minute. The enterprise plan allows 600 requests per minute. Rate limits are per organization, not per user. A rate-limited request receives HTTP 429 and Retry-After. Idempotency keys are retained for 24 hours. Maximum upload size is 25 MB. Pagination defaults to 50 items. The maximum page size is 200 items. The API version is v3. A retried write must reuse its original idempotency key.

@@ -1,0 +1,2 @@
+# Backup policy — current
+Database backups run every 6 hours. Backup retention is 35 days. The recovery point objective is 6 hours. The recovery time objective is 90 minutes. Restore drills run monthly. Backups are encrypted with AES-256. Restore approval belongs to the incident commander. Backup location is region eu-west-1. The archive bucket is ns-archive-42. Deleted backups cannot be restored after retention expires.

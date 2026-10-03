@@ -1,0 +1,2 @@
+# Billing policy — current
+Standard subscription costs 49 USD per month. Enterprise contracts use negotiated pricing. Refunds are available within 14 days of purchase if fewer than 100 requests were used. Both conditions must hold. Invoices are issued on the first day of each month. Billing support is billing@northstar.example. Suspended accounts retain data for 30 days. A suspension does not immediately erase customer data. Annual plans receive a 10 percent discount.

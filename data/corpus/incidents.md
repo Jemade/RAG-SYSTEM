@@ -1,0 +1,2 @@
+# Incident response — current
+SEV-1 means total production outage or confirmed data exposure. The SEV-1 acknowledgement target is 5 minutes. SEV-2 acknowledgement target is 20 minutes. Incident updates are sent every 15 minutes during SEV-1. The incident commander coordinates mitigation and approves restores. Postmortems are due within 3 business days. The paging channel is #ops-oncall. Customer status updates go to status.northstar.example. The primary runbook identifier is IR-204. On-call handoffs happen at 09:00 UTC.

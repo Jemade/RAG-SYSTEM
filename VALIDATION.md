@@ -2,12 +2,13 @@
 
 ## Checks performed
 
-- Local unit/integration suite: **13 tests passed** on Python 3.12.
+- Local unit/integration suite: **14 tests passed** on Python 3.12.
 - Ruff lint and formatting checks passed; `pip check` found no broken requirements.
 - Ingested all 12 sample documents into persistent Qdrant local storage.
 - Ran all 60 questions using the deterministic offline configuration.
 - Downloaded and loaded the actual MiniLM embedding model and MS MARCO cross-encoder, ingested the corpus, and ran all 60 questions using neural retrieval with the offline extractive generator.
 - Exercised the Ragas 0.4.3 faithfulness adapter and open-answer correctness judge end to end through a mocked HTTP provider. This verifies adapter calls and structured response handling without claiming real model quality.
+- Exercised the OpenAI generation path through mocked HTTP, including evidence serialization, cited quotes and token-usage logging. Provider clients are closed after generation.
 - Verified the dashboard routes, trace list, trace detail and missing-trace response through FastAPI TestClient.
 - Verified failed-query logging, invalid citations, stale-index replacement, failed-ingest recovery, strict exact match, source metric deduplication, failure triage and skipped-judge accounting.
 

@@ -147,3 +147,56 @@ def test_semantic_reranker_is_used(pipeline):
     trace = pipeline.query("dataset owners")
     assert trace["retrieved"][0]["source"] == "catalog.md"
     assert trace["retrieved"][0]["rerank_score"] == 100.0
+
+
+def test_generation_provider_and_usage_logged(pipeline, monkeypatch):
+    import httpx
+    import openai
+
+    real_client = openai.OpenAI
+
+    def respond(request):
+        body = json.loads(request.content)
+        assert body["model"] == "gpt-4o-mini"
+        evidence = json.loads(body["messages"][1]["content"])["evidence"][0]
+        result = {
+            "answer": "test answer",
+            "abstained": False,
+            "citations": [{"chunk_id": evidence["id"], "quote": evidence["text"][:30]}],
+        }
+        return httpx.Response(
+            200,
+            json={
+                "id": "mock",
+                "object": "chat.completion",
+                "created": 1,
+                "model": "gpt-4o-mini",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {"role": "assistant", "content": json.dumps(result)},
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 10,
+                    "completion_tokens": 5,
+                    "total_tokens": 15,
+                },
+            },
+        )
+
+    monkeypatch.setattr(
+        openai,
+        "OpenAI",
+        lambda **kwargs: real_client(
+            api_key="test-only",
+            http_client=httpx.Client(
+                transport=httpx.MockTransport(respond), trust_env=False
+            ),
+            **kwargs,
+        ),
+    )
+    trace = pipeline.query("backup retention", provider="gpt-4o-mini")
+    assert trace["citation_integrity"]
+    assert trace["usage"]["total_tokens"] == 15

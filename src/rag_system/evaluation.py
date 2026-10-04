@@ -8,7 +8,22 @@ from pathlib import Path
 
 
 def normalize(text):
-    return re.sub(r"\s+", " ", re.sub(r"[^\w\s]", "", text.casefold())).strip()
+    text = text.casefold()
+
+    def punctuation(match):
+        index = match.start()
+        char = match.group()
+        before = text[index - 1] if index else ""
+        after = text[index + 1] if index + 1 < len(text) else ""
+        if char == "." and before.isdigit() and after.isdigit():
+            return char
+        if char in "+-" and after.isdigit() and (not before or not before.isalnum()):
+            return char
+        if char == "%" and before.isdigit():
+            return char
+        return ""
+
+    return re.sub(r"\s+", " ", re.sub(r"[^\w\s]", punctuation, text)).strip()
 
 
 def exact_match(answer, references):

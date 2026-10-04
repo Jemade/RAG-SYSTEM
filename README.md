@@ -124,3 +124,7 @@ See [VALIDATION.md](VALIDATION.md) for the checks actually performed and [data/R
 ## Recorded run artifacts
 
 [Offline baseline](examples/reports/baseline.md) and [neural retrieval with extractive generation](examples/reports/semantic-retrieval.md) are included with per-case JSON reports. Both runs completed all 60 queries. They are diagnostic examples, not claims of high answer accuracy; see the recorded limitations in [VALIDATION.md](VALIDATION.md).
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development checks, regression tests and review expectations. Use the issue templates for reproducible bugs or concrete feature proposals.

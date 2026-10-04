@@ -5,3 +5,15 @@ __pycache__/
 .ruff_cache/
 .env
 var/
+
+# Local runtime and private configuration
+venv/
+*.py[cod]
+.mypy_cache/
+node_modules/
+.env.local
+.env.*.local
+*.db
+*.sqlite
+*.sqlite3
+.DS_Store

@@ -103,6 +103,10 @@ These are seed probes for anticipated failure modes. They are not claimed to ori
 
 Exact match normalizes case, punctuation and whitespace and compares the entire answer. Open-ended correctness remains `null` when no judge is configured. Judge errors are explicitly reported, never counted as passes. `--min-correctness` fails unless every selected case has a correctness score and the threshold is met. Pipeline and judge errors also cause a nonzero CLI exit. Generation quality and retrieval coverage are distinct signals; a failed exact match can coexist with successful retrieval.
 
+## Inspector API authentication
+
+Set `RAG_INSPECTOR_TOKEN` to require `Authorization: Bearer <token>` on `/api/traces` and `/api/traces/{trace_id}`. This protects the trace JSON endpoints but **the bundled browser inspector does not yet provide a token entry flow**; it will show a loading error when this variable is set. For now use a trusted local deployment or a properly configured authenticating reverse proxy for a remote interface. This is not multi-user authorization or tenant isolation.
+
 ## Operation and privacy
 
 The inspector binds to localhost and has no authentication. Keep it local; public access requires authentication, authorization and a deployment design. Raw traces contain queries and document text. Do not ingest secrets or sensitive documents casually; apply your own retention and deletion policy to `var/traces.sqlite3`. Exception traces store exception types rather than provider messages to reduce accidental secret exposure. This does not redact sensitive text supplied in a query or corpus.

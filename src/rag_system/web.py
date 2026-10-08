@@ -1,14 +1,24 @@
 import json
+import os
+import secrets
 import sqlite3
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException
 from fastapi.responses import HTMLResponse
 
 
 def create_app(root="var"):
     app = FastAPI(title="RAG System · Trace Inspector")
     db_path = Path(root) / "traces.sqlite3"
+    token = os.getenv("RAG_INSPECTOR_TOKEN")
+
+    def authorize(authorization: str | None = Header(default=None)):
+        if token is None:
+            return
+        scheme, _, supplied = (authorization or "").partition(" ")
+        if scheme.lower() != "bearer" or not secrets.compare_digest(supplied, token):
+            raise HTTPException(status_code=401, detail="Invalid inspector token")
 
     def read(sql, parameters=()):
         if not db_path.exists():
@@ -16,7 +26,7 @@ def create_app(root="var"):
         with sqlite3.connect(f"file:{db_path.resolve()}?mode=ro", uri=True) as db:
             return db.execute(sql, parameters).fetchall()
 
-    @app.get("/api/traces")
+    @app.get("/api/traces", dependencies=[Depends(authorize)])
     def traces():
         return [
             {"id": row[0], "created": row[1], **json.loads(row[2])}
@@ -25,7 +35,7 @@ def create_app(root="var"):
             )
         ]
 
-    @app.get("/api/traces/{trace_id}")
+    @app.get("/api/traces/{trace_id}", dependencies=[Depends(authorize)])
     def trace(trace_id: str):
         rows = read("SELECT payload FROM traces WHERE id=?", (trace_id,))
         if not rows:
